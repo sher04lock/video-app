@@ -1,0 +1,10 @@
+<mat-card>
+    <mat-card-title>
+        {{video?.title}}
+    </mat-card-title>
+
+    <mat-card-content>
+        <video [hidden]="!video" #videoPlayer controls [src]="video?.src" [poster]="video?.poster" width="720">
+        </video>
+    </mat-card-content>
+</mat-card>
