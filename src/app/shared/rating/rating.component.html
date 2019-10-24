@@ -1,0 +1,6 @@
+<div (mouseleave)="hoverOut()">
+    <mat-icon *ngFor="let star of currentStarsState; index as i;" (mouseenter)="hoverOn(i)"  (click)="click(i)" style="cursor: pointer;" color="primary">
+            {{star ? 'star' : 'star_border'}}
+        </mat-icon>
+        
+    </div>
