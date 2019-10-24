@@ -35,7 +35,6 @@ export class LoadingService {
               this.loadingElements -= 1;
               break;
           }
-          console.log('emitting ' + !!this.loadingElements, this.loadingElements);
           return of(!!this.loadingElements);
         })
       );

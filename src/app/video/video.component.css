@@ -1,0 +1,22 @@
+.video-card {
+    margin: 10px;
+}
+
+.rating-icon {
+    font-size: 1.3em; 
+    margin-right: 5px;
+}
+
+.rating-icon:hover {
+    cursor: pointer;
+}
+
+.user-rating-value {
+    font-size: 0.8em;
+}
+
+.user-rating-caption {
+    font-size: 0.4em; 
+    color: gray; 
+    font-weight: lighter;
+}

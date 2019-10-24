@@ -9,6 +9,7 @@ import {
   , MatListModule
   , MatButtonModule
   , MatProgressBarModule
+  , MatTooltipModule
 } from '@angular/material';
 
 
@@ -26,6 +27,7 @@ import {
     , MatListModule
     , MatButtonModule
     , MatProgressBarModule
+    , MatTooltipModule
   ]
 })
 export class MaterialComponentsModule { }

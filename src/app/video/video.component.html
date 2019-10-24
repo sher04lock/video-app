@@ -1,10 +1,50 @@
-<mat-card>
-    <mat-card-title>
-        {{video?.title}}
-    </mat-card-title>
+<div fxLayout="row" fxLayoutAlign="start">
 
-    <mat-card-content>
-        <video [hidden]="!video" #videoPlayer controls [src]="video?.src" [poster]="video?.poster" width="720">
-        </video>
-    </mat-card-content>
-</mat-card>
+    <mat-card class="video-card">
+        <mat-card-title>
+            <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+
+                <span>{{video?.title}}</span>
+
+                <div fxLayout="row" fxLayoutAlign="start center">
+
+                    <mat-icon style="color: #EDB867; font-size: 1.3em; margin-right: 5px;">star</mat-icon>
+
+                    <!-- Overall rating -->
+                    <div fxLayout="column" fxLayoutAlign="start start">
+                        <span style="font-size: 0.8em;">
+                            {{video?.rating}}
+                        </span>
+                        <span style="font-size: 0.4em; color: gray; font-weight: lighter;">
+                            /5
+                        </span>
+                    </div>
+                </div>
+
+                <!-- User rating -->
+                <mat-icon matTooltip="Rate it" matTooltipShowDelay="500" class="rating-icon"
+                    (click)="toggleRatingState()" [style.color]="video?.userRating ? '#3f51b5' : 'gray'"
+                    color="primary">star</mat-icon>
+
+                <div fxLayout="column" fxLayoutAlign="start start">
+                    <span class="user-rating-value"> {{video?.userRating || '-'}} </span>
+                    <span class="user-rating-caption">You</span>
+                </div>
+
+                <app-rating *ngIf="state.rating" [initialRating]="video?.userRating" (rateHovered)="onHover($event)"
+                    (rateSelected)="onRateChange($event)" (rateReset)="onRateReset($event)"></app-rating>
+            </div>
+        </mat-card-title>
+
+        <mat-card-subtitle>
+            {{video?.views}} views
+        </mat-card-subtitle>
+
+        <mat-card-content>
+            <video [hidden]="!video" #videoPlayer controls [src]="video?.src" [poster]="video?.poster" width="720">
+            </video>
+        </mat-card-content>
+
+    </mat-card>
+
+</div>
