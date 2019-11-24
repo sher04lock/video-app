@@ -1,0 +1,32 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+    <mat-card class="register-card">
+        <mat-card-title>
+            Register
+        </mat-card-title>
+
+        <mat-card-content>
+            <form fxLayout="column" fxLayoutGap="10px">
+                <mat-form-field>
+                    <input matInput placeholder="Email" [formControl]="emailFormControl">
+                    <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+                        Please enter a valid email address
+                    </mat-error>
+                    <mat-error *ngIf="emailFormControl.hasError('required')">
+                        Email is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="Password" [formControl]="passwordFormControl" type="password">
+                    <mat-error *ngIf="passwordFormControl.hasError('required')">
+                        Password is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+            </form>
+        </mat-card-content>
+
+        <mat-card-actions>
+            <button mat-raised-button color="primary" routerLink="/video">Register</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

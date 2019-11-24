@@ -10,6 +10,9 @@ import {
   , MatButtonModule
   , MatProgressBarModule
   , MatTooltipModule
+  , MatFormFieldModule
+  , MatInputModule
+  , MatSnackBarModule
 } from '@angular/material';
 
 
@@ -28,6 +31,9 @@ import {
     , MatButtonModule
     , MatProgressBarModule
     , MatTooltipModule
+    , MatFormFieldModule
+    , MatInputModule
+    , MatSnackBarModule
   ]
 })
 export class MaterialComponentsModule { }

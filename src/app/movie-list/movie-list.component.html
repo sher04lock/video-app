@@ -1,0 +1,16 @@
+<div style="padding: 15px;">
+        <div class="movie-tiles" fxLayout="row wrap" fxLayoutGap="15px grid" fxLayoutAlign="start">
+
+            <div *ngFor="let movie of movies">
+                <app-movie-list-item [movie]="movie"></app-movie-list-item>
+            </div>
+        </div>
+</div>
+
+<!-- <ul>
+    <li *ngFor="let movie of movies">
+        <strong>{{movie.title}}</strong>
+        <p>views: {{movie.count}}</p>
+        <img [src]="movie.poster">
+    </li>
+</!-->

@@ -1,6 +1,6 @@
-<div fxLayout="row" fxLayoutAlign="start">
+<div fxLayout="row" fxLayout.md="column" fxLayoutAlign="space-between start">
 
-    <mat-card class="video-card">
+    <mat-card class="video-card" fxFlex="50%">
         <mat-card-title>
             <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
 
@@ -13,7 +13,7 @@
                     <!-- Overall rating -->
                     <div fxLayout="column" fxLayoutAlign="start start">
                         <span style="font-size: 0.8em;">
-                            {{video?.rating}}
+                            {{video?.avgRating | number:'1.0-0'}}
                         </span>
                         <span style="font-size: 0.4em; color: gray; font-weight: lighter;">
                             /5
@@ -23,28 +23,39 @@
 
                 <!-- User rating -->
                 <mat-icon matTooltip="Rate it" matTooltipShowDelay="500" class="rating-icon"
-                    (click)="toggleRatingState()" [style.color]="video?.userRating ? '#3f51b5' : 'gray'"
+                    (click)="toggleRatingState()" [style.color]="video?.rating ? '#3f51b5' : 'gray'"
                     color="primary">star</mat-icon>
 
                 <div fxLayout="column" fxLayoutAlign="start start">
-                    <span class="user-rating-value"> {{video?.userRating || '-'}} </span>
+                    <span class="user-rating-value"> {{video?.rating || '-'}} </span>
                     <span class="user-rating-caption">You</span>
                 </div>
 
-                <app-rating *ngIf="state.rating" [initialRating]="video?.userRating" (rateHovered)="onHover($event)"
+                <app-rating *ngIf="state.rating" [initialRating]="video?.rating" (rateHovered)="onHover($event)"
                     (rateSelected)="onRateChange($event)" (rateReset)="onRateReset($event)"></app-rating>
             </div>
         </mat-card-title>
 
         <mat-card-subtitle>
-            {{video?.views}} views
+            <!-- TODO: change to views when implemented -->
+            {{video?.details.imdbVotes}} views
         </mat-card-subtitle>
 
         <mat-card-content>
-            <video [hidden]="!video" #videoPlayer controls [src]="video?.src" [poster]="video?.poster" width="720">
+            <video [hidden]="!video" #videoPlayer controls [src]="getVideoUrl()" [poster]="video?.details.Poster"
+                width="720">
             </video>
         </mat-card-content>
 
+        <mat-card-subtitle>
+            Plot
+        </mat-card-subtitle>
+        <mat-card-content>
+            {{video?.details.Plot}}
+        </mat-card-content>
+
     </mat-card>
+
+    <app-movie-list></app-movie-list>
 
 </div>

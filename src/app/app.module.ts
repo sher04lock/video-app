@@ -6,14 +6,23 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
-import { VideoComponent } from './video/video.component';
+import { MovieComponent } from './movie/movie.component';
 import { NavigationComponent } from './navigation/navigation.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { MovieListComponent } from './movie-list/movie-list.component';
+import { MovieListItemComponent } from './movie-list-item/movie-list-item.component';
+import { AuthInterceptorProvider } from './_services/auth.interceptor';
 
 @NgModule({
   declarations: [
     AppComponent,
-    VideoComponent,
+    MovieComponent,
     NavigationComponent,
+    LoginComponent,
+    RegisterComponent,
+    MovieListComponent,
+    MovieListItemComponent,
   ],
   imports: [
     BrowserModule
@@ -22,7 +31,7 @@ import { NavigationComponent } from './navigation/navigation.component';
     , HttpClientModule
     , SharedModule
   ],
-  providers: [],
+  providers: [AuthInterceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
