@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { tap, throttleTime, mergeMap } from 'rxjs/operators';
+import { mergeMap, tap, throttleTime } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 const USER_KEY = 'video-app-user';
@@ -26,6 +26,7 @@ export interface IUser {
   _id: string;
   username: string;
   watchProgress: { [movie_id: string]: number };
+  savedForLater: number[];
   role: IUserRole;
 }
 
@@ -65,9 +66,18 @@ export class UserService {
 
   public saveUserMoviesProgress(watchProgress: { [movie_id: string]: number } = {}) {
     for (const [movie_id, currentTime] of Object.entries(watchProgress)) {
-      console.log('saving progress', movie_id, currentTime)
       this.saveCurrentTimeLocally({ movie_id, currentTime });
     }
+  }
+
+  public setSavedForLater(params: { movie_id: number, savedForLater: boolean }) {
+    const userId = this.getUserData()._id;
+
+    if (!userId) {
+      return of({});
+    }
+
+    return this.httpClient.post(`${this.URL}/${userId}/watch-later`, { ...params });
   }
 
   public cleanUserData() {
