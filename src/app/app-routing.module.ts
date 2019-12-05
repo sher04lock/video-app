@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { MovieComponent } from './movie/movie.component';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
 import { MovieDetailsResolver } from './movie/movie-details.resolver';
-import { MovieListComponent } from './movie-list/movie-list.component';
+import { MovieComponent } from './movie/movie.component';
+import { RegisterComponent } from './register/register.component';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: MovieListComponent
+    component: HomeComponent
   },
   {
     path: 'video/:id',
