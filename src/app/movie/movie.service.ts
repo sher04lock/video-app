@@ -1,10 +1,9 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IMovie } from './movie.interfaces';
+import { Injectable } from '@angular/core';
+import { of } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Observable, of } from 'rxjs';
-import { tap, throttleTime, mergeMap, debounceTime } from 'rxjs/operators';
-import { ITimeUpdate, IMovieRating } from '../_services/user.service';
+import { IMovieRating } from '../_services/user.service';
+import { IFoundMovie, ILastViewedMovie, IMovie, ISavedMovie } from './movie.interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +38,24 @@ export class MovieService<T = IMovie> {
     }
 
     return this.httpClient.put(`${this.URL}/${rating.movie_id}/rating`, { ...rating });
+  }
+
+  getLastViewedMovies() {
+    return this.httpClient.get<ILastViewedMovie[]>(`${this.URL}/last-viewed`);
+  }
+
+  getSavedMovies() {
+    return this.httpClient.get<ISavedMovie[]>(`${this.URL}/saved`);
+  }
+
+  public search(term: string, { limit = 9, skip = 0 }: { limit?: number; skip?: number; } = {}) {
+    const params = {
+      q: term,
+      limit: limit.toString(),
+      skip: skip.toString(),
+    };
+
+    return this.httpClient.get<IFoundMovie[]>(`${this.URL}/search`, { params });
   }
 
   protected currentTimeKey(movieId: string | number) {

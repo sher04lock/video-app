@@ -1,47 +1,30 @@
+import { IUser } from '../_services/user.service';
+
 export interface IMovie {
+    id: string;
     _id: string;
     movie_id: number;
     title: string;
     genres: string[];
-    year: string;
     genresString: string;
-    avgRating: number;
-    youtube_id: string;
+    year: string;
+    avgRating?: number;
     imdb_id: string;
-    details: IMovieDetails;
-
-    rating?: number;
+    hidden?: boolean;
+    poster: string;
+    plot: string;
+    votes: string;
+    userRating?: number;
+    user?: IUser;
 }
 
-export interface IMovieDetails {
-    Title: string;
-    Year: string;
-    Rated: string;
-    Released: string;
-    Runtime: string;
-    Genre: string;
-    Director: string;
-    Writer: string;
-    Actors: string;
-    Plot: string;
-    Language: string;
-    Country: string;
-    Awards: string;
-    Poster: string;
-    Ratings: Rating[];
-    Metascore: string;
-    imdbRating: string;
-    imdbVotes: string;
-    imdbID: string;
-    Type: string;
-    DVD: string;
-    BoxOffice: string;
-    Production: string;
-    Website: string;
-    Response: string;
-}
 
-export interface Rating {
-    Source: string;
-    Value: string;
-}
+export type ISavedMovie = Pick<IMovie, 'id' | 'movie_id' | 'title' | 'imdb_id' | 'poster' | 'plot' | 'votes'>;
+
+export type ILastViewedMovie =
+    Pick<IMovie, 'id' | 'movie_id' | 'title' | 'imdb_id' | 'poster' | 'plot' | 'votes'>
+    & { lastUpdated: string, views: number };
+
+export type IFoundMovie = Pick<IMovie, 'id' | 'movie_id' | 'title' | 'imdb_id' | 'poster' | 'plot' | 'votes'> & { score: number };
+
+
