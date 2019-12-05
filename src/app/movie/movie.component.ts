@@ -1,14 +1,13 @@
-import { OnInit, Input, ViewChild, ElementRef, Component } from '@angular/core';
-import { IconProvider } from '../shared/icon-provider.service';
-import { IMovie } from './movie.interfaces';
-import { ActivatedRoute } from '@angular/router';
-import { MovieService } from './movie.service';
-import { fromEvent, of } from 'rxjs';
-import { throttleTime, tap, map, catchError } from 'rxjs/operators';
-import { AuthService } from '../_services/auth.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
+import { ActivatedRoute } from '@angular/router';
+import { fromEvent, of } from 'rxjs';
+import { catchError, map, throttleTime } from 'rxjs/operators';
+import { IconProvider } from '../shared/icon-provider.service';
+import { AuthService } from '../_services/auth.service';
 import { UserService } from '../_services/user.service';
-
+import { IMovie, IFoundMovie } from './movie.interfaces';
+import { MovieService } from './movie.service';
 
 
 @Component({
@@ -21,11 +20,14 @@ export class MovieComponent implements OnInit {
 
   @ViewChild('videoPlayer', { static: true }) videoPlayer: ElementRef;
 
+  savedForLater = false;
 
   originalRating;
   state = {
     rating: false,
   };
+
+  relatedMovies: IFoundMovie[];
 
   get player(): HTMLVideoElement {
     return this.videoPlayer.nativeElement;
@@ -45,11 +47,22 @@ export class MovieComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(({ movieDetails }: { movieDetails: IMovie }) => {
       this.video = movieDetails;
-      this.originalRating = this.video.rating;
+      this.originalRating = this.video.userRating;
+      this.savedForLater = this.isSavedForLater(movieDetails);
     });
 
     this.player.currentTime = this.getCurrentTime();
     this.listenForTimeUpdates();
+
+    this.getRelatedMovies();
+  }
+
+  getRelatedMovies() {
+    this.movieService.search(this.video.title)
+      .pipe(map(movies => movies.filter(m => m.movie_id !== this.video.movie_id)))
+      .subscribe(movies => {
+        this.relatedMovies = movies;
+      });
   }
 
   listenForTimeUpdates() {
@@ -65,11 +78,11 @@ export class MovieComponent implements OnInit {
   }
 
   onHover(hoveredRate: number) {
-    this.video.rating = hoveredRate;
+    this.video.userRating = hoveredRate;
   }
 
   onRateChange(rating: number) {
-    this.video.rating = rating;
+    this.video.userRating = rating;
 
     if (!this.authService.isLoggedIn()) {
       this.openSnackBar('Thanks for sharing your vote! If you want to persist it, please login (👉) first.', 'OK');
@@ -93,7 +106,7 @@ export class MovieComponent implements OnInit {
   }
 
   onRateReset(previousValue: number) {
-    this.video.rating = previousValue;
+    this.video.userRating = previousValue;
   }
 
   toggleRatingState() {
@@ -106,5 +119,32 @@ export class MovieComponent implements OnInit {
 
   getCurrentTime() {
     return this.userService.getCurrentTime(this.video.movie_id);
+  }
+
+  isSavedForLater(movie: IMovie) {
+    return movie.user && movie.user.savedForLater && movie.user.savedForLater.includes(movie.movie_id);
+  }
+
+  saveForLater(savedForLater: boolean) {
+
+    if (!this.authService.isLoggedIn()) {
+      this.openSnackBar('Want to save it for later? Login first. 👉', 'OK');
+      return;
+    }
+
+    this.userService
+      .setSavedForLater({ movie_id: this.video.movie_id, savedForLater })
+      .subscribe(_ => {
+        // SetTimeout for nicer UX when clicking buttons
+        setTimeout(() => {
+          this.openSnackBar(savedForLater ? 'Movie saved for later' : 'Removed from saved', 'OK');
+          this.savedForLater = savedForLater;
+        }, 150);
+      });
+  }
+
+  onMoviesFound(movies) {
+    console.log(movies);
+    // this.relatedMovies = movies;
   }
 }

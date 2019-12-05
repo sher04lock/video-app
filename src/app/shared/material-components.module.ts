@@ -13,6 +13,7 @@ import {
   , MatFormFieldModule
   , MatInputModule
   , MatSnackBarModule
+  , MatAutocompleteModule
 } from '@angular/material';
 
 
@@ -34,6 +35,7 @@ import {
     , MatFormFieldModule
     , MatInputModule
     , MatSnackBarModule
+    , MatAutocompleteModule
   ]
 })
 export class MaterialComponentsModule { }

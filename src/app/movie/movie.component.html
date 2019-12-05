@@ -1,49 +1,77 @@
-<div fxLayout="row" fxLayout.md="column" fxLayoutAlign="space-between start">
+<div fxLayout="row" fxLayout.md="column" fxLayoutAlign="start start" class='container'>
 
-    <mat-card class="video-card" fxFlex="50%">
+    <mat-card class="video-card" fxFlex="55%">
+        <mat-card-title>
+            <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+
+                <mat-icon style="color: #EDB867; font-size: 1.3em; margin-right: 5px;">star</mat-icon>
+
+                <!-- Overall rating -->
+                <div fxLayout="column" fxLayoutAlign="start start">
+                    <span style="font-size: 0.8em;">
+                        {{video?.avgRating | number:'1.0-0'}}
+                    </span>
+                    <span style="font-size: 0.4em; color: gray; font-weight: lighter;">
+                        /5
+                    </span>
+                </div>
+
+
+                <!-- User rating -->
+                <mat-icon matTooltip="Rate it" matTooltipShowDelay="500" class="rating-icon"
+                    (click)="toggleRatingState()" [style.color]="video?.userRating ? '#3f51b5' : 'gray'"
+                    color="primary">
+                    star
+                </mat-icon>
+
+                <div fxLayout="column" fxLayoutAlign="start start">
+                    <span class="user-rating-value"> {{video?.userRating || '-'}} </span>
+                    <span class="user-rating-caption">You</span>
+                </div>
+
+                <app-rating style="min-width: 120px;" *ngIf="state.rating" [initialRating]="video?.userRating"
+                    (rateHovered)="onHover($event)" (rateSelected)="onRateChange($event)"
+                    (rateReset)="onRateReset($event)">
+                </app-rating>
+
+                <span class="spacer"></span>
+
+
+                <button *ngIf='!savedForLater' mat-stroked-button color='accent' (click)='saveForLater(true)'>
+                    <mat-icon>
+                        add
+                    </mat-icon>
+                    Save for later
+                </button>
+                <button *ngIf='savedForLater' mat-flat-button color='accent' (click)='saveForLater(false)'>
+                    <mat-icon>
+                        clear
+                    </mat-icon>
+                    Unsave video
+                </button>
+
+            </div>
+        </mat-card-title>
+
+
         <mat-card-title>
             <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
 
                 <span>{{video?.title}}</span>
 
-                <div fxLayout="row" fxLayoutAlign="start center">
+                <span class="spacer"></span>
 
-                    <mat-icon style="color: #EDB867; font-size: 1.3em; margin-right: 5px;">star</mat-icon>
-
-                    <!-- Overall rating -->
-                    <div fxLayout="column" fxLayoutAlign="start start">
-                        <span style="font-size: 0.8em;">
-                            {{video?.avgRating | number:'1.0-0'}}
-                        </span>
-                        <span style="font-size: 0.4em; color: gray; font-weight: lighter;">
-                            /5
-                        </span>
-                    </div>
-                </div>
-
-                <!-- User rating -->
-                <mat-icon matTooltip="Rate it" matTooltipShowDelay="500" class="rating-icon"
-                    (click)="toggleRatingState()" [style.color]="video?.rating ? '#3f51b5' : 'gray'"
-                    color="primary">star</mat-icon>
-
-                <div fxLayout="column" fxLayoutAlign="start start">
-                    <span class="user-rating-value"> {{video?.rating || '-'}} </span>
-                    <span class="user-rating-caption">You</span>
-                </div>
-
-                <app-rating *ngIf="state.rating" [initialRating]="video?.rating" (rateHovered)="onHover($event)"
-                    (rateSelected)="onRateChange($event)" (rateReset)="onRateReset($event)"></app-rating>
             </div>
         </mat-card-title>
 
         <mat-card-subtitle>
             <!-- TODO: change to views when implemented -->
-            {{video?.details.imdbVotes}} views
+            {{video?.votes}} views
         </mat-card-subtitle>
 
+
         <mat-card-content>
-            <video [hidden]="!video" #videoPlayer controls [src]="getVideoUrl()" [poster]="video?.details.Poster"
-                width="720">
+            <video [hidden]="!video" #videoPlayer controls [src]="getVideoUrl()" [poster]="video?.poster">
             </video>
         </mat-card-content>
 
@@ -51,11 +79,13 @@
             Plot
         </mat-card-subtitle>
         <mat-card-content>
-            {{video?.details.Plot}}
+            {{video?.plot}}
         </mat-card-content>
 
     </mat-card>
 
-    <app-movie-list></app-movie-list>
+    <div fxFlex="45%" fxLayout="column">
+        <app-movie-list [movies]='relatedMovies' [showVertically]='true'></app-movie-list>
+    </div>
 
 </div>
