@@ -2,3 +2,8 @@
     margin: 0px;
 }
 
+.vertical-list {
+    overflow: auto;
+    max-height: 90vh;
+}
+
