@@ -1,40 +1,16 @@
-<div class="container" [class.is-mobile]="mobileQuery.matches">
-    <mat-toolbar color="primary" class="toolbar" fxLayout='row'>
-        <button mat-icon-button (click)="snav.toggle()">
-            <mat-icon>menu</mat-icon>
-        </button>
-        <h1 class="app-name" routerLink="/">Video App</h1>
+<div fxLayout="row" fxLayoutAlign="space-between center" class='navbar'>
+    <span fxLayout="row">
+        <h1 class="app-name" routerLink="/">
 
-        <span class="spacer"></span>
-        
-        <button mat-raised-button *ngIf="isLoggedIn" (click)="logout()">Logout</button>
-        <button mat-raised-button *ngIf="!isLoggedIn" routerLink="login">Login</button>
-    </mat-toolbar>
+            <fa-icon [icon]="icons.video" class='logo-icon'></fa-icon>
+            Movicco
+        </h1>
+    </span>
 
-    <mat-progress-bar color="accent" mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
-    <div [style.height.px]="isLoading? 0 : 4"></div>
+    <app-movie-search fxFlex="50%"></app-movie-search>
 
-    <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-        <mat-sidenav opened="true" #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
-            [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
-
-            <mat-nav-list *ngIf="!isLoggedIn">
-                <a mat-list-item routerLink="login">Login</a>
-            </mat-nav-list>
-
-            <mat-nav-list *ngIf="!isLoggedIn">
-                <a mat-list-item routerLink="register">Create an account</a>
-            </mat-nav-list>
-
-            <mat-nav-list>
-                <a mat-list-item routerLink="video/1">Video</a>
-            </mat-nav-list>
-        </mat-sidenav>
-
-
-        <mat-sidenav-content>
-            <router-outlet></router-outlet>
-        </mat-sidenav-content>
-
-    </mat-sidenav-container>
+    <button mat-flat-button color='accent' *ngIf="isLoggedIn" (click)="logout()">Logout</button>
+    <button mat-flat-button color='accent' *ngIf="!isLoggedIn" routerLink="login">Login</button>
 </div>
+
+<router-outlet></router-outlet>

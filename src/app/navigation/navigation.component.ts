@@ -4,6 +4,8 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { LoadingService } from '../shared/loading.service';
 import { AuthService } from '../_services/auth.service';
 import { Router } from '@angular/router';
+import { IconProvider } from '../shared/icon-provider.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-navigation',
@@ -11,9 +13,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent implements OnInit, OnDestroy {
-  mobileQuery: MediaQueryList;
 
-  private mobileQueryListener: () => void;
   private isLoadingSubscription: Subscription;
 
   isLoading: boolean;
@@ -23,13 +23,9 @@ export class NavigationComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private loadingService: LoadingService,
     private readonly router: Router,
-    changeDetectorRef: ChangeDetectorRef,
-    media: MediaMatcher,
+    private snackBar: MatSnackBar,
+    public icons: IconProvider,
   ) {
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    this.mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this.mobileQueryListener);
-
     this.isLoggedIn = this.authService.isLoggedIn();
   }
 
@@ -46,12 +42,14 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.mobileQuery.removeListener(this.mobileQueryListener);
     this.isLoadingSubscription.unsubscribe();
   }
 
   logout() {
-    console.log('loggin outh')
     this.authService.logout();
+    this.snackBar.open('Logged out.', 'Ok', {
+      duration: 5000,
+      verticalPosition: 'top'
+    });
   }
 }
