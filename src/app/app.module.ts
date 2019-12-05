@@ -13,6 +13,7 @@ import { RegisterComponent } from './register/register.component';
 import { MovieListComponent } from './movie-list/movie-list.component';
 import { MovieListItemComponent } from './movie-list-item/movie-list-item.component';
 import { AuthInterceptorProvider } from './_services/auth.interceptor';
+import { MovieSearchComponent } from './movie-search/movie-search.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { AuthInterceptorProvider } from './_services/auth.interceptor';
     RegisterComponent,
     MovieListComponent,
     MovieListItemComponent,
+    MovieSearchComponent,
   ],
   imports: [
     BrowserModule

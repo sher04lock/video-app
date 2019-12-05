@@ -1,0 +1,12 @@
+.full-width {
+  width: 100%;
+}
+
+img {
+    max-height: 46px;
+    width: auto;
+}
+
+::ng-deep .mat-form-field-wrapper {
+  padding: 0px;
+}

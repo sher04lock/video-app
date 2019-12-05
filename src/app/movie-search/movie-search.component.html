@@ -1,0 +1,15 @@
+    <mat-form-field appearance="outline" class='full-width'>
+        <mat-label>Find movie...</mat-label>
+        <input #movie [(ngModel)]="selectedMovie" #searchBox matInput [matAutocomplete]="auto"
+        (keyup)="search(searchBox.value)" (keyup.enter)="onEnter()">
+        <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let movie of filteredMovies$ | async" [value]="movie.title"
+            [routerLink]="['/video', movie.movie_id]">
+            <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="5px">
+                
+                <img [src]="movie.poster">
+                <span>{{ movie.title }}</span>
+            </div>
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>
