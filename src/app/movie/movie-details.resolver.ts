@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot, Resolve, Router } from '@a
 import { Observable, EMPTY, of } from 'rxjs';
 import { MovieService } from './movie.service';
 import { IMovie } from './movie.interfaces';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, catchError } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class MovieDetailsResolver implements Resolve<IMovie> {
@@ -36,7 +36,8 @@ export class MovieDetailsResolver implements Resolve<IMovie> {
                     } else {
                         return of(movie);
                     }
-                })
+                }),
+                catchError(_ => onMovieNotFound()),
             );
     }
 }
