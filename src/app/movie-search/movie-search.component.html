@@ -4,7 +4,7 @@
         (keyup)="search(searchBox.value)" (keyup.enter)="onEnter()">
         <mat-autocomplete #auto="matAutocomplete">
             <mat-option *ngFor="let movie of filteredMovies$ | async" [value]="movie.title"
-            [routerLink]="['/video', movie.movie_id]">
+            [routerLink]="['/movie', movie.movie_id]">
             <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="5px">
                 
                 <img [src]="movie.poster">

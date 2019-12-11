@@ -13,7 +13,7 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'video/:id',
+    path: 'movie/:id',
     component: MovieComponent,
     resolve: {
       movieDetails: MovieDetailsResolver
