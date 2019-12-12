@@ -4,12 +4,15 @@ import { Observable, EMPTY, of } from 'rxjs';
 import { MovieService } from './movie.service';
 import { IMovie } from './movie.interfaces';
 import { mergeMap, catchError } from 'rxjs/operators';
+import { LoadingService } from '../shared/loading.service';
 
 @Injectable({ providedIn: 'root' })
 export class MovieDetailsResolver implements Resolve<IMovie> {
     constructor(
         private movieService: MovieService,
         private router: Router,
+        private loadingService: LoadingService,
+
     ) { }
 
     resolve(
@@ -19,6 +22,7 @@ export class MovieDetailsResolver implements Resolve<IMovie> {
         const id = parseInt(route.paramMap.get('id'), 10);
 
         const onMovieNotFound = () => {
+            this.loadingService.componentLoading.next(false);
             this.router.navigate(['/']);
             return EMPTY;
         };

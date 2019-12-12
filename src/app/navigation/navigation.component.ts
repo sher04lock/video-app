@@ -20,6 +20,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   isLoading: boolean;
   isLoggedIn: boolean;
+  isAdmin: boolean;
 
   constructor(
     private authService: AuthService,
@@ -30,6 +31,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     public icons: IconProvider,
   ) {
     this.isLoggedIn = this.authService.isLoggedIn();
+    this.isAdmin = this.authService.isAdmin();
     this.getUsername();
   }
 
@@ -43,8 +45,10 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
     this.authService.events.subscribe(event => {
       this.isLoggedIn = event === 'login';
-      this.getUsername();
+
       this.router.navigate(['/']);
+      this.getUsername();
+      this.checkAdminRole();
     });
   }
 
@@ -63,5 +67,9 @@ export class NavigationComponent implements OnInit, OnDestroy {
   protected getUsername() {
     const { username } = this.userService.getUserData();
     this.username = username;
+  }
+
+  protected checkAdminRole() {
+    this.isAdmin = this.authService.isAdmin();
   }
 }

@@ -4,12 +4,16 @@ import { of } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { IMovieRating } from '../_services/user.service';
 import { IFoundMovie, ILastViewedMovie, IMovie, ISavedMovie } from './movie.interfaces';
+import DataSource from 'devextreme/data/data_source';
+import ODataStore from 'devextreme/data/odata/store';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MovieService<T = IMovie> {
   private readonly URL = environment.apiUrl + '/movies';
+
+  private odataDataSource: DataSource;
 
   constructor(private readonly httpClient: HttpClient) { }
 
@@ -48,7 +52,7 @@ export class MovieService<T = IMovie> {
     return this.httpClient.get<ISavedMovie[]>(`${this.URL}/saved`);
   }
 
-  public search(term: string, { limit = 9, skip = 0 }: { limit?: number; skip?: number; } = {}) {
+  search(term: string, { limit = 9, skip = 0 }: { limit?: number; skip?: number; } = {}) {
     const params = {
       q: term,
       limit: limit.toString(),
@@ -56,6 +60,22 @@ export class MovieService<T = IMovie> {
     };
 
     return this.httpClient.get<IFoundMovie[]>(`${this.URL}/search`, { params });
+  }
+
+  getODataSource() {
+    const url = this.URL + '/odata';
+
+    if (!this.odataDataSource) {
+      this.odataDataSource = new DataSource({
+        store: new ODataStore({ url, version: 4 }),
+      });
+    }
+
+    return this.odataDataSource;
+  }
+
+  toggleMovieVisibility(movie_id: number, hidden: boolean) {
+    return this.httpClient.post(`${this.URL}/${movie_id}/hidden`, { hidden });
   }
 
   protected currentTimeKey(movieId: string | number) {

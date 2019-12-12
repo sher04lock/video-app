@@ -1,20 +1,23 @@
 <div fxLayout="row" fxLayoutAlign="space-between center" class='navbar'>
     <span fxLayout="row">
         <h1 class="app-name" routerLink="/">
-
+            
             <fa-icon [icon]="icons.video" class='logo-icon'></fa-icon>
             Movicco
         </h1>
     </span>
 
+    
     <app-movie-search fxFlex="50%"></app-movie-search>
-
+    
+    <button mat-stroked-button *ngIf="isLoggedIn && isAdmin" routerLink="admin">Admin panel</button>
+    
     <div *ngIf="isLoggedIn" fxLayout="column" fxLayoutAlign="start center">
         <button mat-flat-button color='accent' (click)="logout()">Logout</button>
         <span *ngIf="username" class='user-label'>Signed in as</span>
         <span *ngIf="username" class='user-label'><strong>{{username}}</strong></span>
     </div>
-
+    
     <button mat-flat-button color='accent' *ngIf="!isLoggedIn" routerLink="login">Login</button>
 </div>
 <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>

@@ -5,6 +5,8 @@ import { LoginComponent } from './login/login.component';
 import { MovieDetailsResolver } from './movie/movie-details.resolver';
 import { MovieComponent } from './movie/movie.component';
 import { RegisterComponent } from './register/register.component';
+import { AdminComponent } from './admin/admin.component';
+import { AdminAuthGuard } from './_services/admin-auth.guard';
 
 
 const routes: Routes = [
@@ -26,7 +28,13 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent,
-  }
+  },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [AdminAuthGuard]
+  },
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

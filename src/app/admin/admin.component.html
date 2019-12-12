@@ -1,0 +1,31 @@
+<mat-card>
+
+    <dx-data-grid id="gridContainer" [dataSource]="dataSource" [showBorders]="true" [columnAutoWidth]="true" [columnAutoWidth]="true" [hoverStateEnabled]="true">
+
+        <dxo-header-filter [visible]="true"></dxo-header-filter>
+        <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+        <dxi-column dataField="movie_id" cellTemplate="movieIdCell"></dxi-column>
+        <dxi-column dataField="title"></dxi-column>
+        <dxi-column dataField="genresString"></dxi-column>
+        <dxi-column dataField="year"></dxi-column>
+        <dxi-column dataField="youtube_id"></dxi-column>
+        <dxi-column dataField="imdb_id"></dxi-column>
+        <dxi-column dataField="hidden" cellTemplate="hiddenCell"></dxi-column>
+
+        <div *dxTemplate="let movieRow of 'movieIdCell'">
+            <a [routerLink]="['/movie', movieRow.data.movie_id]" [textContent]="movieRow.data.movie_id"></a>
+        </div>
+
+        <div *dxTemplate="let movieRow of 'hiddenCell'">
+            <mat-checkbox [disabled]='true' [checked]="movieRow.data.hidden"></mat-checkbox>
+            <button mat-button (click)="changeMovieVisibility(movieRow.data)">{{movieRow.data.hidden ? 'Show' : 'Hide'}}</button>
+        </div>
+
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showNavigationButtons]="true"
+            [showInfo]="true" [visible]="true">
+        </dxo-pager>
+    </dx-data-grid>
+</mat-card>
