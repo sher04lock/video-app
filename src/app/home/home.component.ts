@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MovieService } from '../movie/movie.service';
 import { IMovie, ILastViewedMovie, ISavedMovie } from '../movie/movie.interfaces';
-import { UserService } from '../_services/user.service';
 import { AuthService } from '../_services/auth.service';
+import { LoadingService } from '../shared/loading.service';
 
 @Component({
   selector: 'app-home',
@@ -20,11 +20,16 @@ export class HomeComponent implements OnInit {
   constructor(
     private readonly movieService: MovieService,
     private readonly authService: AuthService,
+    private readonly loadingService: LoadingService,
   ) { }
 
   ngOnInit() {
+    this.loadingService.componentLoading.next(true);
     this.movieService.getMostViewedMovies({ limit: 20 })
-      .subscribe(movies => this.mostViewedMovies = movies);
+      .subscribe(movies => {
+        this.loadingService.componentLoading.next(false);
+        this.mostViewedMovies = movies;
+      });
 
     this.isLoggedIn = this.authService.isLoggedIn();
 
