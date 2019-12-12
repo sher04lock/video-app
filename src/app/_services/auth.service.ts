@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { tap } from 'rxjs/operators';
-import { IUser, UserService } from './user.service';
+import { IUser, UserService, IUserRole } from './user.service';
 import { Subject } from 'rxjs';
 
 interface ILoginResponse {
@@ -59,6 +59,12 @@ export class AuthService {
 
   public isLoggedIn() {
     return !!this.getToken();
+  }
+
+  public isAdmin() {
+    const { role } = this.userService.getUserData();
+
+    return role === IUserRole.admin;
   }
 
   protected saveToken(token: string) {
