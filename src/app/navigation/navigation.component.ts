@@ -6,6 +6,7 @@ import { AuthService } from '../_services/auth.service';
 import { Router } from '@angular/router';
 import { IconProvider } from '../shared/icon-provider.service';
 import { MatSnackBar } from '@angular/material';
+import { UserService } from '../_services/user.service';
 
 @Component({
   selector: 'app-navigation',
@@ -13,31 +14,41 @@ import { MatSnackBar } from '@angular/material';
   styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent implements OnInit, OnDestroy {
+  username: string;
 
   private isLoadingSubscription: Subscription;
 
   isLoading: boolean;
   isLoggedIn: boolean;
+  isAdmin: boolean;
 
   constructor(
     private authService: AuthService,
+    private userService: UserService,
     private loadingService: LoadingService,
     private readonly router: Router,
     private snackBar: MatSnackBar,
     public icons: IconProvider,
   ) {
     this.isLoggedIn = this.authService.isLoggedIn();
+    this.isAdmin = this.authService.isAdmin();
+    this.getUsername();
   }
 
   ngOnInit() {
     this.isLoadingSubscription = this.loadingService.isLoading$
       .subscribe(isLoading => {
-        this.isLoading = isLoading;
+        setTimeout(() => {
+          this.isLoading = isLoading;
+        }, 0);
       });
 
     this.authService.events.subscribe(event => {
       this.isLoggedIn = event === 'login';
+
       this.router.navigate(['/']);
+      this.getUsername();
+      this.checkAdminRole();
     });
   }
 
@@ -51,5 +62,14 @@ export class NavigationComponent implements OnInit, OnDestroy {
       duration: 5000,
       verticalPosition: 'top'
     });
+  }
+
+  protected getUsername() {
+    const { username } = this.userService.getUserData();
+    this.username = username;
+  }
+
+  protected checkAdminRole() {
+    this.isAdmin = this.authService.isAdmin();
   }
 }

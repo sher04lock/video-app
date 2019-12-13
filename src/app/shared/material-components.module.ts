@@ -14,6 +14,7 @@ import {
   , MatInputModule
   , MatSnackBarModule
   , MatAutocompleteModule
+  , MatCheckboxModule
 } from '@angular/material';
 
 
@@ -36,6 +37,7 @@ import {
     , MatInputModule
     , MatSnackBarModule
     , MatAutocompleteModule
+    , MatCheckboxModule
   ]
 })
 export class MaterialComponentsModule { }

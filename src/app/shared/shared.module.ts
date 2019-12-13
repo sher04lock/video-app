@@ -5,6 +5,7 @@ import { MaterialComponentsModule } from './material-components.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RatingComponent } from './rating/rating.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { DevextremeComponentsModule } from './devextreme-components.module';
 
 @NgModule({
   declarations: [RatingComponent],
@@ -15,6 +16,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     , ReactiveFormsModule
     , FlexLayoutModule
     , FontAwesomeModule
+    , DevextremeComponentsModule
   ],
   exports: [
     CommonModule
@@ -24,6 +26,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     , FlexLayoutModule
     , FontAwesomeModule
     , RatingComponent
+    , DevextremeComponentsModule
   ]
 })
 export class SharedModule { }

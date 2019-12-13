@@ -4,13 +4,13 @@
             Most popular movies
         </mat-card-title>
         <mat-card-content>
-            <div [class.horizontal]="isLoggedIn">
+            <div [class.horizontal]="isLoggedIn && mostViewedMovies">
                 <app-movie-list [movies]="mostViewedMovies" [showVertically]="!isLoggedIn"></app-movie-list>
             </div>
         </mat-card-content>
     </mat-card>
 
-    <mat-card *ngIf="isLoggedIn">
+    <mat-card *ngIf="isLoggedIn && lastViewedMovies">
         <mat-card-title>
             Recently viewed by you
         </mat-card-title>
@@ -21,7 +21,7 @@
         </mat-card-content>
     </mat-card>
 
-    <mat-card *ngIf="isLoggedIn">
+    <mat-card *ngIf="isLoggedIn && savedMovies">
         <mat-card-title>
             Saved for later
         </mat-card-title>

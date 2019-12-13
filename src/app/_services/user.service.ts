@@ -35,6 +35,7 @@ export interface IUser {
 })
 export class UserService {
   private readonly URL = environment.apiUrl + '/users';
+  private readonly AUTH_URL = environment.apiUrl + '/auth';
 
   constructor(private readonly httpClient: HttpClient) { }
 
@@ -82,6 +83,10 @@ export class UserService {
 
   public cleanUserData() {
     localStorage.removeItem(USER_KEY);
+  }
+
+  public register(user: { username: string, password: string }) {
+    return this.httpClient.post(`${this.AUTH_URL}/register`, user);
   }
 
   protected saveCurrentTimeRemotely(timeUpdate: ITimeUpdate) {

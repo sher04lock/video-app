@@ -15,6 +15,7 @@ import { MovieListItemComponent } from './movie-list-item/movie-list-item.compon
 import { AuthInterceptorProvider } from './_services/auth.interceptor';
 import { MovieSearchComponent } from './movie-search/movie-search.component';
 import { HomeComponent } from './home/home.component';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { HomeComponent } from './home/home.component';
     MovieListItemComponent,
     MovieSearchComponent,
     HomeComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule
